@@ -1,6 +1,8 @@
-Mostrar a localização de cada jogada no formato (col,row), para cada jogada no histórico.
-Estilizar com negrito o item da lista de jogadas que está selecionado no momento.
-Reescrever o componente Board para utilizar 2 loops para fazer os quadrados, em vez de deixá-los hardcoded.
-Adicionar um botão de toggle que lhe permita ordenar os jogadas em ordem ascendente ou descendente.
-Quando alguém ganhar, destaque os 3 quadrados que causaram a vitória.
-Quando ninguém ganhar, exiba uma mensagem informando que o resultado foi um empate.
+Display the location for each move in the format (col, row) in the move history list.
+Bold the currently selected item in the move list.
+Rewrite Board to use two loops to make the squares instead of hardcoding them.
+Add a toggle button that lets you sort the moves in either ascending or descending order.
+When someone wins, highlight the three squares that caused the win.
+When no one wins, display a message about the result being a draw.
+
+Add tests to the application.

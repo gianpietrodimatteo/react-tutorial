@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { unstable_concurrentAct } from 'react-dom/test-utils';
 import './index.css';
 
 function Square(props) {
@@ -9,7 +8,6 @@ function Square(props) {
             {props.value}
         </button>
     );
-
 }
 
 class Board extends React.Component {
@@ -130,12 +128,15 @@ ReactDOM.render(
 
 function calculateWinner(squares) {
     const lines = [
+        // horizontal
         [0, 1, 2],
         [3, 4, 5],
         [6, 7, 8],
+        // vertical
         [0, 3, 6],
         [1, 4, 7],
         [2, 5, 8],
+        // diagonals
         [0, 4, 8],
         [2, 4, 6],
     ];
