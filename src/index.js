@@ -10,6 +10,20 @@ function Square(props) {
     );
 }
 
+const lines = [
+    // horizontal
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    // vertical
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    // diagonals
+    [0, 4, 8],
+    [2, 4, 6],
+];
+
 class Board extends React.Component {
     renderSquare(i) {
         return (
@@ -48,7 +62,8 @@ class Game extends React.Component {
         super(props);
         this.state= {
             history:[{
-                squares:Array(9).fill(null),
+                squares:Array(9).fill(null), 
+                colRow: { col: null, row: null}
             }],
             stepNumber:0,
             xIsNext:true,
@@ -66,6 +81,7 @@ class Game extends React.Component {
         this.setState({
             history: history.concat([{
                 squares: squares,
+                colRow: getColRow(i)
             }]),
             stepNumber: history.length,
             xIsNext: !this.state.xIsNext,
@@ -86,7 +102,7 @@ class Game extends React.Component {
 
         const moves = history.map((step, move) => {
             const desc = move ?
-              'Go to move #' + move :
+              'Go to move #' + move + ` (col: ${step.colRow.col} row: ${step.colRow.row})`:
               'Go to game start';
             return (
               <li key={move}>
@@ -127,19 +143,6 @@ ReactDOM.render(
 );
 
 function calculateWinner(squares) {
-    const lines = [
-        // horizontal
-        [0, 1, 2],
-        [3, 4, 5],
-        [6, 7, 8],
-        // vertical
-        [0, 3, 6],
-        [1, 4, 7],
-        [2, 5, 8],
-        // diagonals
-        [0, 4, 8],
-        [2, 4, 6],
-    ];
     for (let i = 0; i < lines.length; i++) {
         const [a, b, c] = lines[i];
         if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
@@ -147,4 +150,20 @@ function calculateWinner(squares) {
         }
     }
     return null;
+}
+
+function getColRow(j) {
+    let row = 0;
+    let col = 0;
+    for (let i = 0; i < 6; i++) {
+        const [a, b, c] = lines[i];
+        if (i < 3 && (j === a || j === b || j === c)) {
+            row = i;
+        }
+        else if (i >= 3 && (j === a || j === b || j === c)) {
+            col = i - 3;
+        }
+    }
+
+    return {col: col, row: row};
 }
