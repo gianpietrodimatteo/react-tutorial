@@ -51,6 +51,54 @@ class Board extends React.Component {
   }
 }
 
+class Menu extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      reverse: false,
+    };
+  }
+
+  reverseList(state) {
+    this.setState({
+      reverse: !state,
+    });
+  }
+
+  render() {
+    const moves = this.props.history.map((step, move) => {
+      const desc = move
+        ? "Go to move #" +
+          move +
+          ` (col: ${step.colRow.col} row: ${step.colRow.row})`
+        : "Go to game start";
+      return (
+        <li key={move}>
+          <button
+            onClick={() => this.props.jumpTo(move)}
+            style={{ fontWeight: move === this.props.stepNumber ? "bold" : "" }}
+          >
+            {desc}
+          </button>
+        </li>
+      );
+    });
+
+    if (this.state.reverse) {
+      moves.reverse();
+    }
+
+    return (
+      <div>
+        <button onClick={() => this.reverseList(this.state.reverse)}>
+          Reverse
+        </button>
+        <ol>{moves}</ol>
+      </div>
+    );
+  }
+}
+
 class Game extends React.Component {
   constructor(props) {
     super(props);
@@ -98,24 +146,6 @@ class Game extends React.Component {
     const current = history[this.state.stepNumber];
     const winner = calculateWinner(current.squares);
 
-    const moves = history.map((step, move) => {
-      const desc = move
-        ? "Go to move #" +
-          move +
-          ` (col: ${step.colRow.col} row: ${step.colRow.row})`
-        : "Go to game start";
-      return (
-        <li key={move}>
-          <button
-            onClick={() => this.jumpTo(move)}
-            style={{ fontWeight: move === this.state.stepNumber ? "bold" : "" }}
-          >
-            {desc}
-          </button>
-        </li>
-      );
-    });
-
     let status;
     if (winner) {
       status = "Winner: " + winner;
@@ -133,7 +163,11 @@ class Game extends React.Component {
         </div>
         <div className="game-info">
           <div>{status}</div>
-          <ol>{moves}</ol>
+          <Menu
+            history={history}
+            stepNumber={this.state.stepNumber}
+            jumpTo={(move) => this.jumpTo(move)}
+          />
         </div>
       </div>
     );
