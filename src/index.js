@@ -153,10 +153,13 @@ class Game extends React.Component {
     const history = this.state.history;
     const current = history[this.state.stepNumber];
     const winner = calculateWinner(current.squares);
+    const draw = calculateDraw(current.squares);
 
     let status;
     if (winner) {
       status = "Winner: " + (!this.state.xIsNext ? "X" : "O");
+    } else if (draw) {
+      status = "Draw! :(";
     } else {
       status = "Next player: " + (this.state.xIsNext ? "X" : "O");
     }
@@ -195,6 +198,16 @@ function calculateWinner(squares) {
     }
   }
   return null;
+}
+
+// When all holes are filled and no one won
+function calculateDraw(squares) {
+  for (let i = 0; i < squares.length; i++) {
+    if (!squares[i]) {
+      return false;
+    }
+  }
+  return true;
 }
 
 function getColRow(j) {
