@@ -32,6 +32,7 @@ class Board extends React.Component {
   renderSquare(i, highlite) {
     return (
       <Square
+        key={i}
         highlite={highlite}
         value={this.props.squares[i]}
         onClick={() => this.props.onClick(i)}
@@ -45,7 +46,11 @@ class Board extends React.Component {
       const index = k + 3 * j;
       cols.push(this.renderSquare(index, this.props.highlite.includes(index)));
     }
-    return <div className="board-row">{cols}</div>;
+    return (
+      <div className="board-row" key={j}>
+        {cols}
+      </div>
+    );
   }
 
   render() {
