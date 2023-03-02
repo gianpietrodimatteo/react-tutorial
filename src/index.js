@@ -63,19 +63,6 @@ class Board extends React.Component {
 }
 
 class Menu extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      reverse: false,
-    };
-  }
-
-  reverseList(state) {
-    this.setState({
-      reverse: !state,
-    });
-  }
-
   render() {
     const moves = this.props.history.map((step, move) => {
       const desc = move
@@ -86,6 +73,7 @@ class Menu extends React.Component {
       return (
         <li key={move}>
           <button
+            className="menu-button"
             onClick={() => this.props.jumpTo(move)}
             style={{ fontWeight: move === this.props.stepNumber ? "bold" : "" }}
           >
@@ -95,18 +83,11 @@ class Menu extends React.Component {
       );
     });
 
-    if (this.state.reverse) {
+    if (this.props.reverse) {
       moves.reverse();
     }
 
-    return (
-      <div>
-        <button onClick={() => this.reverseList(this.state.reverse)}>
-          Reverse
-        </button>
-        <ol>{moves}</ol>
-      </div>
-    );
+    return <ol className="menu-list">{moves}</ol>;
   }
 }
 
@@ -122,7 +103,14 @@ class Game extends React.Component {
       ],
       stepNumber: 0,
       xIsNext: true,
+      reverse: false,
     };
+  }
+
+  reverseList(state) {
+    this.setState({
+      reverse: !state,
+    });
   }
 
   handleClick(i) {
@@ -179,8 +167,15 @@ class Game extends React.Component {
           />
         </div>
         <div className="game-info">
-          <div>{status}</div>
+          <div style={{ float: "left" }}>{status}</div>
+          <button
+            className="reverse-button"
+            onClick={() => this.reverseList(this.state.reverse)}
+          >
+            Reverse
+          </button>
           <Menu
+            reverse={this.state.reverse}
             history={history}
             stepNumber={this.state.stepNumber}
             jumpTo={(move) => this.jumpTo(move)}

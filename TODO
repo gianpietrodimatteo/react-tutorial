@@ -5,4 +5,7 @@ Add a toggle button that lets you sort the moves in either ascending or descendi
 When someone wins, highlight the three squares that caused the win. OK
 When no one wins, display a message about the result being a draw. OK
 
+Style up. OK
 Add tests to the application.
+
+Enable Single Player.
